@@ -32,6 +32,8 @@ type BuildCfg struct {
 	DynamicLinking bool
 	// BuildTags to be passed into `go build`.
 	BuildTags string
+	// whether to link against libpython
+	LinkLibpython bool
 }
 
 // NewBuildCfg returns a newly constructed build config

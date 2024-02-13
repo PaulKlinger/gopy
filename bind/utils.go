@@ -101,7 +101,7 @@ func (pc *PyConfig) AllFlags() string {
 
 // GetPythonConfig returns the needed python configuration for the given
 // python VM (python, python2, python3, pypy, etc...)
-func GetPythonConfig(vm string) (PyConfig, error) {
+func GetPythonConfig(vm string, linkLibpython bool) (PyConfig, error) {
 	code := `import sys
 try:
 	import sysconfig as ds
@@ -210,12 +210,15 @@ else:
 	cfg.CFlags = strings.Join([]string{
 		"-I" + raw.IncDir,
 	}, " ")
-	cfg.LdFlags = strings.Join([]string{
+	ldflags := []string{
 		"-L" + raw.LibDir,
-		"-l" + raw.LibPy,
 		raw.ShLibs,
 		raw.SysLibs,
-	}, " ")
+	}
+	if linkLibpython {
+		ldflags = append(ldflags, "-l"+raw.LibPy)
+	}
+	cfg.LdFlags = strings.Join(ldflags, " ")
 	cfg.LdDynamicFlags = raw.ShFlags
 
 	return cfg, nil

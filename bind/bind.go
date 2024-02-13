@@ -28,6 +28,8 @@ type BindCfg struct {
 	PkgPrefix string
 	// rename Go exported symbols to python PEP snake_case
 	RenameCase bool
+	// whether to link against libpython
+	LinkLibpython bool
 }
 
 // ErrorList is a list of errors
