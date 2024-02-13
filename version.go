@@ -3,7 +3,7 @@
 package main
 
 const (
-	Version     = "v0.4.8"
-	GitCommit   = "034c7db"          // the commit JUST BEFORE the release
-	VersionDate = "2023-12-12 20:15" // UTC
+	Version     = "v0.4.8_linklibpythonOption"
+	GitCommit   = "979d9ed"          // the commit JUST BEFORE the release
+	VersionDate = "2024-02-13 22:22" // UTC
 )
