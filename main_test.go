@@ -16,7 +16,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/go-python/gopy/bind"
+	"github.com/PaulKlinger/gopy/bind"
 )
 
 var (
@@ -947,8 +947,8 @@ func writeGoMod(t *testing.T, pkgDir, tstDir string) {
 	template := `
 module dummy
 
-require github.com/go-python/gopy v0.0.0
-replace github.com/go-python/gopy => %s
+require github.com/PaulKlinger/gopy v0.0.0
+replace github.com/PaulKlinger/gopy => %s
 `
 	contents := fmt.Sprintf(template, pkgDir)
 	if err := os.WriteFile(filepath.Join(tstDir, "go.mod"), []byte(contents), 0666); err != nil {
