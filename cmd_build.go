@@ -46,6 +46,7 @@ ex:
 	cmd.Flag.Bool("no-warn", false, "suppress warning messages, which may be expected")
 	cmd.Flag.Bool("no-make", false, "do not generate a Makefile, e.g., when called from Makefile")
 	cmd.Flag.Bool("dynamic-link", false, "whether to link output shared library dynamically to Python")
+	cmd.Flag.Bool("link-libpython", true, "whether to link output shared library with libpython (must be false for manylinux builds)")
 	cmd.Flag.String("build-tags", "", "build tags to be passed to `go build`")
 	return cmd
 }
@@ -68,6 +69,7 @@ func gopyRunCmdBuild(cmdr *commander.Command, args []string) error {
 	cfg.NoWarn = cmdr.Flag.Lookup("no-warn").Value.Get().(bool)
 	cfg.NoMake = cmdr.Flag.Lookup("no-make").Value.Get().(bool)
 	cfg.DynamicLinking = cmdr.Flag.Lookup("dynamic-link").Value.Get().(bool)
+	cfg.LinkLibpython = cmdr.Flag.Lookup("link-libpython").Value.Get().(bool)
 	cfg.BuildTags = cmdr.Flag.Lookup("build-tags").Value.Get().(string)
 
 	bind.NoWarn = cfg.NoWarn
@@ -121,7 +123,7 @@ func runBuild(mode bind.BuildMode, cfg *BuildCfg) error {
 		return err
 	}
 
-	pycfg, err := bind.GetPythonConfig(cfg.VM)
+	pycfg, err := bind.GetPythonConfig(cfg.VM, cfg.LinkLibpython)
 
 	if mode == bind.ModeExe {
 		of, err := os.Create(buildname + ".h") // overwrite existing
