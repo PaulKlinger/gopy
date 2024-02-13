@@ -212,12 +212,12 @@ else:
 	}, " ")
 	ldflags := []string{
 		"-L" + raw.LibDir,
-		raw.ShLibs,
-		raw.SysLibs,
 	}
 	if linkLibpython {
 		ldflags = append(ldflags, "-l"+raw.LibPy)
 	}
+	ldflags = append(ldflags, raw.ShLibs)
+	ldflags = append(ldflags, raw.SysLibs)
 	cfg.LdFlags = strings.Join(ldflags, " ")
 	cfg.LdDynamicFlags = raw.ShFlags
 
