@@ -30,6 +30,8 @@ type BindCfg struct {
 	RenameCase bool
 	// whether to link against libpython
 	LinkLibpython bool
+	// replacement to apply to ldflags
+	LdReplace string
 }
 
 // ErrorList is a list of errors

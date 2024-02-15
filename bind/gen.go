@@ -593,7 +593,7 @@ func (g *pyGen) genGoPreamble() {
 		}
 	}
 	libcfg := func() string {
-		pycfg, err := GetPythonConfig(g.cfg.VM, g.cfg.LinkLibpython)
+		pycfg, err := GetPythonConfig(g.cfg.VM, g.cfg.LinkLibpython, g.cfg.LdReplace)
 		if err != nil {
 			panic(err)
 		}
@@ -712,7 +712,7 @@ func (g *pyGen) genMakefile() {
 	gencmd := strings.Replace(g.cfg.Cmd, "gopy build", "gopy gen", 1)
 	gencmd = CmdStrToMakefile(gencmd)
 
-	pycfg, err := GetPythonConfig(g.cfg.VM, g.cfg.LinkLibpython)
+	pycfg, err := GetPythonConfig(g.cfg.VM, g.cfg.LinkLibpython, g.cfg.LdReplace)
 	if err != nil {
 		panic(err)
 	}

@@ -47,6 +47,7 @@ ex:
 	cmd.Flag.Bool("no-make", false, "do not generate a Makefile, e.g., when called from Makefile")
 	cmd.Flag.Bool("dynamic-link", false, "whether to link output shared library dynamically to Python")
 	cmd.Flag.Bool("link-libpython", true, "whether to link output shared library with libpython (must be false for manylinux builds)")
+	cmd.Flag.String("replace-ldflags", "", "regex to apply to ldflags, of the form 'pattern/replacement'")
 	cmd.Flag.String("build-tags", "", "build tags to be passed to `go build`")
 	return cmd
 }
@@ -70,6 +71,7 @@ func gopyRunCmdBuild(cmdr *commander.Command, args []string) error {
 	cfg.NoMake = cmdr.Flag.Lookup("no-make").Value.Get().(bool)
 	cfg.DynamicLinking = cmdr.Flag.Lookup("dynamic-link").Value.Get().(bool)
 	cfg.LinkLibpython = cmdr.Flag.Lookup("link-libpython").Value.Get().(bool)
+	cfg.LdReplace = cmdr.Flag.Lookup("replace-ldflags").Value.Get().(string)
 	cfg.BuildTags = cmdr.Flag.Lookup("build-tags").Value.Get().(string)
 
 	bind.NoWarn = cfg.NoWarn
@@ -123,7 +125,7 @@ func runBuild(mode bind.BuildMode, cfg *BuildCfg) error {
 		return err
 	}
 
-	pycfg, err := bind.GetPythonConfig(cfg.VM, cfg.LinkLibpython)
+	pycfg, err := bind.GetPythonConfig(cfg.VM, cfg.LinkLibpython, cfg.LdReplace)
 
 	if mode == bind.ModeExe {
 		of, err := os.Create(buildname + ".h") // overwrite existing
